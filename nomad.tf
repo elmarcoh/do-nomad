@@ -1,8 +1,3 @@
-variable "do_token" {}
-variable "image" {
-	default = "ubuntu-16-04-x64"
-}
-
 provider "digitalocean" {
 	token = "${var.do_token}"
 }
@@ -13,7 +8,13 @@ resource "digitalocean_droplet" "nomad_server" {
 	region = "nyc2"
 	size = "512mb"
 	private_networking = true
-	ssh_keys = [ "8303746" ]
+	ssh_keys = [ "${var.ssh_key_id}" ]
+
+	connection {
+		type = "ssh"
+		user = "root"
+		private_key = "${file("do-rsa")}"
+	}
 
 	provisioner "remote-exec" {
 		scripts = [ "nomad.sh" ]
@@ -22,12 +23,6 @@ resource "digitalocean_droplet" "nomad_server" {
 	provisioner "file" {
 		source = "server.hcl"
 		destination = "/etc/nomad/server.hcl"
-
-		connection {
-			type = "ssh"
-			user = "root"
-			agent = true
-		}
 	}
 }
 
@@ -37,21 +32,21 @@ resource "digitalocean_droplet" "nomad_client" {
 	region = "nyc2"
 	size = "512mb"
 	private_networking = true
-	ssh_keys = [ "8303746" ]
+	ssh_keys = [ "${var.ssh_key_id}" ]
 
 	provisioner "remote-exec" {
 		scripts = [ "nomad.sh" ]
 	}
 
+	connection {
+		type = "ssh"
+		user = "root"
+		private_key = "${file("do-rsa")}"
+	}
+
 	provisioner "file" {
 		content = "${data.template_file.client.rendered}"
 		destination = "/etc/nomad/client.hcl"
-
-		connection {
-			type = "ssh"
-			user = "root"
-			agent = true
-		}
 	}
 }
 
