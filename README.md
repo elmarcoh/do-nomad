@@ -21,6 +21,17 @@ DO account
 terraform apply
 ```
 
+## Accessing consul UI
+
+Consul only accepts connections from the private network, to be able
+to access the very useful _consul UI_, a ssh tunnel can be used:
+
+```
+ssh -L 8500:localhost:8500 root@<server-public-ip> -i <ssh-key>
+```
+
+the `server-public-ip` can be obtained with `terraform show`
+
 ## Why DO?
 
 Nothing in particular, I just happened to have an account with some credits
