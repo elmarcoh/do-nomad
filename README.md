@@ -25,3 +25,10 @@ terraform apply
 
 Nothing in particular, I just happened to have an account with some credits
 `¯\_(ツ)_/¯`
+
+## ToDo
+
+- Add consul
+- Add hashifront
+- Example project setup
+- Use TF modules
