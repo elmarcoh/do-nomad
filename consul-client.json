@@ -1,0 +1,9 @@
+{
+	"bind_addr": "$local_ip",
+	"data_dir": "/opt/consul/data",
+	"log_level": "DEBUG",
+	"server": false,
+	"start_join" : ["${server_address}"],
+	"retry_join" : ["${server_address}"],
+	"retry_interval" : "15s"
+}

@@ -1,15 +1,12 @@
 data_dir = "/var/lib/nomad"
 
 advertise {
-	http = "${server_address}"
-	rpc = "${server_address}"
-	serf = "${server_address}"
+	http = "$local_ip"
+	rpc = "$local_ip"
+	serf = "$local_ip"
 }
 
 server {
 	enabled = true
-}
-
-client {
-	enabled = false
+	bootstrap_expect = 1
 }

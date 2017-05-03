@@ -1,7 +1,10 @@
 data_dir = "/var/lib/nomad"
+bind_addr = "$local_ip"
 
-server {
-	enabled = false
+advertise {
+	http = "$local_ip"
+	rpc = "$local_ip"
+	serf = "$local_ip"
 }
 
 client {
